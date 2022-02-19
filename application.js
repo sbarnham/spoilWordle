@@ -52,13 +52,7 @@ app.get('/currentWord', function(req, resp) {
 
 function getWord() {
     var startDate = new Date("02/19/2022");
-    console.log(startDate)
-
     var today = new Date();
-    console.log(today)
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
 
     var timeDifference = today.getTime() - startDate.getTime();
     var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
