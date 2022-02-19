@@ -22,7 +22,6 @@ app.get('/words', function (req, resp) {
 app.post('/spoil', function (req, resp) {
     const todaysWord = getWord();
     const numbers = req.body.numberlist
-    console.log(numbers)
     for (let number of numbers) {
         twilio.messages
             .create({ body: `Hope this ruins your day: Today's Wordle is ${todaysWord.toUpperCase()}. Jog on.`, from: `${phoneNumber}`, to: `${number}` })
@@ -48,6 +47,10 @@ app.get('/currentWord', function(req, resp) {
     } else {
         resp.json("No")
     }
+})
+
+app.get('/hint', function(req, resp) {
+    
 })
 
 function getWord() {
