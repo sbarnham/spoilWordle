@@ -1,3 +1,3 @@
-const app = require('./application');
+const spoilWordle = require('./application');
 
-app.listen(8080);
+spoilWordle.listen(8080);
