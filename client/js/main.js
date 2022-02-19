@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   createSquares();
   getNewWord();
@@ -11,25 +12,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const keys = document.querySelectorAll(".keyboard-row button");
 
   function getNewWord() {
-    fetch(
-      `https://wordsapiv1.p.rapidapi.com/words/?random=true&lettersMin=5&lettersMax=5`,
-      {
-        method: "GET",
-        headers: {
-          "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
-          "x-rapidapi-key": "<YOUR_KEY_GOES_HERE>",
-        },
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((res) => {
-        word = res.word;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    var today = new Date();
+    var date = [today.getFullYear(),(today.getMonth()+1),today.getDate()];
+    var now = [2022,2,19]
+    const response = fetch(`http://${window.location.hostname}:8080/words`)
+    // var difference = []
+    // for (var i=0;i<=){
+    //   difference.push(now[i]-date[i])
+    // }
+
+    var yr = 365*(date[0]-now[0]);
+    var month = 30*(date[1]-now[1]);
+    var day = date[2]-now[2];
+    var tot = yr + month + day;
+    var newWord = response[tot];
+
+    return newWord
   }
 
   function getCurrentWordArr() {
