@@ -57,14 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const name = data.get('name')
     const number = data.get('number')
     numberlist.push(number)
-    for (var i in numberlist){
-      var html = `
-      <div class="row">
-        ${numberlist}
-      </div>
-      `
-      numberposition.insertAdjacentElement('afterbegin',html)
-    }
+    var html = `
+    ${number}
+    `
+    numberposition.innerHTML = numberposition.innerHTML + "<br>" + html + "</br>"
   })
 
   function getTileColor(letter, index) {
