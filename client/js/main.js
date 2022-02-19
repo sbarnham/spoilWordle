@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Not a valid UK number - please try again")
     }
   })
-
+  const letterlist = []
   function getTileColor(letter, index) {
     const isCorrectLetter = newWord.includes(letter);
 
@@ -75,11 +75,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const isCorrectPosition = letter === letterInThatPosition;
 
     if (isCorrectPosition) {
+      letterlist.push(letter)
       return "rgb(83, 141, 78)";
     }
 
     return "rgb(181, 159, 59)";
   }
+  const buttonpressed = document.getElementById('hint')
+  buttonpressed.addEventListener('click', async function(){
+    const response = fetch(`http://${window.location.hostname}:8080/hint`,{
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({letterlist})
+        })
+    const hintword = response.json()
+    alert(hintword)
+  })
 
   function handleSubmitWord() {
     const currentWordArr = getCurrentWordArr();
