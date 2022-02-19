@@ -16,10 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     var date = [today.getFullYear(),(today.getMonth()+1),today.getDate()];
     var now = [2022,2,19]
     const response = await fetch(`http://${window.location.hostname}:8080/words`)
-    // var difference = []
-    // for (var i=0;i<=){
-    //   difference.push(now[i]-date[i])
-    // }
     const words = await response.json();
     var yr = 365*(date[0]-now[0]);
     var month = 30*(date[1]-now[1]);
@@ -55,12 +51,17 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault()
     const data = new FormData(spoil)
     const number = data.get('number')
-    console.log(number)
-    numberlist.push(number)
-    var html = `
-    ${number}
-    `
-    numberposition.innerHTML = numberposition.innerHTML + "<br>" + html + "</br>"
+    const numstring = number.toString()
+    if (((numstring.length == 11 && numstring.slice(0,2) == '44') || (numstring.length == 12 && numstring.slice(0,3) == '+44')) && (numberlist.indexOf(number) !== -1)){
+      numberlist.push(number)
+      var html = `
+      ${number}
+      `
+      numberposition.innerHTML = numberposition.innerHTML + "<br>" + html + "</br>"
+      }
+    else{
+      alert("Not a valid UK number - please try again")
+    }
   })
 
   function getTileColor(letter, index) {
@@ -115,7 +116,12 @@ document.addEventListener("DOMContentLoaded", () => {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({numberlist})
-            })  
+            })
+            setTimeout(function(){window.alert("Congrats! You found the word. It's being spoiled for the numbers listed now.")}, 3000)
+
+            for (let i = 0; i < keys.length; i++) {
+              keys[i].onclick = null
+            }
           }
           if (guessedWords.length === 6) {
             window.alert(`Sorry, you have no more guesses! The newWord is ${newWord}.`);
