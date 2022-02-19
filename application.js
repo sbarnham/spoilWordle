@@ -31,8 +31,8 @@ app.post('/spoil', function (req, resp) {
          <Say voice="alice">Do you have any time to talk about Jesus? No? Today's Wordle is ${todaysWord}!</Say>
          <Play>http://demo.twilio.com/docs/classic.mp3</Play>
          </Response>,
-         to: '+14155551212',
-         from: '+15017122661'
+         to: `${number}`,
+         from: `${phoneNumber}`
        })
       .then(call => console.log(call.sid));
     }
