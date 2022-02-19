@@ -17,6 +17,7 @@ app.get('/words', function (req, resp) {
     resp.json(words)
 })
 
+<<<<<<< HEAD
 app.post('/spoil', function (req, resp) {
     const todaysWord = getWord();
     const numbers = req.body
@@ -35,6 +36,24 @@ app.post('/spoil', function (req, resp) {
          from: '+15017122661'
        })
       .then(call => console.log(call.sid));  
+=======
+<<<<<<< HEAD
+app.post('/spoil', function (req, resp) {
+    const todaysWord = getWord(); 
+
+    const numbers = req.body
+    for (let number of numbers) {
+        twilio.messages
+            .create({ body: `${todaysWord}`, from: '+447488884357', to: `${number}` })
+=======
+app.post('/spoil', function(req, resp) {
+    console.log(numbers)
+    const numbers = req.body
+    for (let number of numbers) {
+        twilio.messages
+            .create({body: `Just to ruin your day, the Wordle of the Day is: ${todaysWord}`, from: `+${phoneNumber}`, to: `${number}`})
+>>>>>>> b5e596b6d1840d170778e0a78e0c9a96d7de3ea4
+>>>>>>> 03dee17515996d379f683c41b919efadfb6b94bb
     }
 })
 
