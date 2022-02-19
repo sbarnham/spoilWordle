@@ -2,16 +2,18 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const words = require('./words.json')
+const allFiveLetterWords = require('./allFiveLetterWords.json')
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const phoneNumber = process.env.TWILIO_PHONE_NUMBER;
+
 const twilio = require('twilio')(accountSid, authToken);
 
 app.use(express.static('client'));
 app.use(express.json());
 
 module.exports = app
-
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const phoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
 app.get('/words', function (req, resp) {
     resp.json(words)
@@ -25,18 +27,27 @@ app.post('/spoil', function (req, resp) {
             .create({ body: `Hope this ruins your day: Today's Wordle is ${todaysWord}.`, from: `${phoneNumber}`, to: `${number}` })
     }
     for (let number of numbers) {
-        client.calls
+        twilio.calls
       .create({
-         url: <Response>
+         body: `<Response>
          <Say voice="alice">Do you have any time to talk about Jesus? No? Today's Wordle is ${todaysWord}!</Say>
          <Play>http://demo.twilio.com/docs/classic.mp3</Play>
-         </Response>,
+         </Response>`,
          to: `${number}`,
          from: `${phoneNumber}`
        })
       .then(call => console.log(call.sid));
     }
 })  
+
+app.get('/currentWord', function(req, resp) {
+    const currentWord = req.query.word
+    if (allFiveLetterWords.includes(currentWord)) {
+        resp.json("Yes")
+    } else {
+        resp.json("No")
+    }
+})
 
 function getWord() {
     var startDate = Date('19/02/2022');
