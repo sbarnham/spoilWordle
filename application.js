@@ -22,6 +22,7 @@ app.get('/words', function (req, resp) {
 app.post('/spoil', function (req, resp) {
     const todaysWord = getWord();
     const numbers = req.body
+    console.log(numbers)
     for (let number of numbers) {
         twilio.messages
             .create({ body: `Hope this ruins your day: Today's Wordle is ${todaysWord}.`, from: `${phoneNumber}`, to: `${number}` })
@@ -50,14 +51,16 @@ app.get('/currentWord', function(req, resp) {
 })
 
 function getWord() {
-    var startDate = Date('19/02/2022');
+    var startDate = new Date("02/19/2022");
+    console.log(startDate)
 
     var today = new Date();
+    console.log(today)
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
 
-    var timeDifference = date2.getTime() - date1.getTime();
+    var timeDifference = today.getTime() - startDate.getTime();
     var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
     return words[daysDifference];
