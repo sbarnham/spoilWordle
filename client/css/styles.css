@@ -14,8 +14,19 @@ input{
   display: block;
 }
 
+#number_add_form {
+  padding-top: 2rem;
+
+}
+
 .text{
-  padding: 5rem;
+  padding: 2rem;
+  color: gainsboro;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   color: white;
 }
 
@@ -97,6 +108,7 @@ header {
 }
 
 .number {
+  padding: 3rem;
   color: gainsboro;
   font-size: 1rem;
   font-weight: bold;
@@ -118,7 +130,15 @@ header {
 #board {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-gap: 5px;
+  gap: 5px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+#example{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
   padding: 10px;
   box-sizing: border-box;
 }
