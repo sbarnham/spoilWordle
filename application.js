@@ -43,14 +43,14 @@ app.post('/spoil', function (req, resp) {
 app.get('/currentWord', function(req, resp) {
     const currentWord = req.query.word
     if (allFiveLetterWords.includes(currentWord)) {
-        resp.json("Yes")
+        resp.json('Yes')
     } else {
-        resp.json("No")
+        resp.json('No')
     }
 })
 
 app.get('/hint', function(req, resp) {
-    
+
 })
 
 function getWord() {
