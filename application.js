@@ -11,7 +11,6 @@ module.exports = app
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
-const phoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
 
 
@@ -19,22 +18,25 @@ app.get('/words', function (req, resp) {
     resp.json(words)
 })
 
-<<<<<<< HEAD
 app.post('/spoil', function (req, resp) {
-    const todaysWord = getWord(); 
+    const todaysWord = getWord();
 
     const numbers = req.body
     for (let number of numbers) {
         twilio.messages
             .create({ body: `${todaysWord}`, from: '+447488884357', to: `${number}` })
-=======
-app.post('/spoil', function(req, resp) {
-    console.log(numbers)
-    const numbers = req.body
+    }
     for (let number of numbers) {
-        twilio.messages
-            .create({body: `Just to ruin your day, the Wordle of the Day is: ${todaysWord}`, from: `+${phoneNumber}`, to: `${number}`})
->>>>>>> e9bfea6e839a1523da368dd0026f5532ae88dd90
+        client.calls
+      .create({
+         url: <Response>
+         <Say voice="alice">Do you have any time to talk about Jesus? No? Today's Wordle is ${todaysWord}!</Say>
+         <Play>http://demo.twilio.com/docs/classic.mp3</Play>
+         </Response>,
+         to: '+14155551212',
+         from: '+15017122661'
+       })
+      .then(call => console.log(call.sid));  
     }
 })
 
@@ -46,7 +48,7 @@ function getWord() {
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
 
-    var timeDifference = date2.getTime() - date1.getTime();   
+    var timeDifference = date2.getTime() - date1.getTime();
     var daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
     return words[daysDifference];
