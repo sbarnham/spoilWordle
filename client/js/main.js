@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
   spoil.addEventListener('submit', async function(event){
     event.preventDefault()
     const data = new FormData(spoil)
-    const name = data.get('name')
     const number = data.get('number')
     console.log(number)
     numberlist.push(number)
