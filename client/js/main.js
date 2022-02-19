@@ -55,13 +55,17 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault()
     const data = new FormData(spoil)
     const number = data.get('number')
-    if (number.length === 11 && (String(number).slice(0,2) === '44'|| String(number).slice(0,3) === '+44')){
+    const numstring = number.toString()
+    if ((numstring.length == 11 && numstring.slice(0,2) == '44') || (numstring.length == 12 && numstring.slice(0,3) == '+44')){
       numberlist.push(number)
       var html = `
       ${number}
       `
       numberposition.innerHTML = numberposition.innerHTML + "<br>" + html + "</br>"
       }
+    else{
+      alert("Not a valid UK number - please try again")
+    }
   })
 
   function getTileColor(letter, index) {
