@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const spoil = document.getElementById('number_add_form')
   const numberposition = document.getElementById('number_list')
-  var numberlist = [""]
+  var numberlist = []
   spoil.addEventListener('submit', async function(event){
     event.preventDefault()
     const data = new FormData(spoil)

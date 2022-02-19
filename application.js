@@ -30,7 +30,7 @@ app.post('/spoil', function (req, resp) {
     for (let number of numbers) {
         twilio.calls
       .create({
-         body: `<Response>
+         twiml: `<Response>
          <Say voice="alice">Do you have any time to talk about Jesus? No? Today's Wordle is ${todaysWord}!</Say>
          <Play>http://demo.twilio.com/docs/classic.mp3</Play>
          </Response>`,
