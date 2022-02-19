@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return "rgb(181, 159, 59)";
   }
 
-  function handleSubmitWord() {
+  async function handleSubmitWord() {
     const currentWordArr = getCurrentWordArr();
     if (currentWordArr.length !== 5) {
       window.alert("Word must be 5 letters");
@@ -89,50 +89,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const currentWord = currentWordArr.join("");
 
-    const response = fetch(`http://${window.location.hostname}:8080/currentWord?newWord=${currentWord}`, {
+    const response = await fetch(`http://${window.location.hostname}:8080/currentWord?word=${currentWord}`, {
       method: "GET",
     })
-      .then((res) => {
-        if (JSON.stringify(res) == "No") {
-          window.alert("Word not in word list")
-        } else {
-          const firstLetterId = guessedWordCount * 5 + 1;
-          const interval = 200;
-          currentWordArr.forEach((letter, index) => {
-            setTimeout(() => {
-              const tileColor = getTileColor(letter, index);
+    var decision = await response.json()
+    console.log(decision)
+    if (decision == 'No') {
+      window.alert("Entered word not in word list")
+    } else {
+      const firstLetterId = guessedWordCount * 5 + 1;
+      const interval = 200;
+      currentWordArr.forEach((letter, index) => {
+        setTimeout(() => {
+          const tileColor = getTileColor(letter, index);
 
-              const letterId = firstLetterId + index;
-              const letterEl = document.getElementById(letterId);
-              letterEl.classList.add("animate__flipInX");
-              letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
-            }, interval * index);
-          });
+          const letterId = firstLetterId + index;
+          const letterEl = document.getElementById(letterId);
+          letterEl.classList.add("animate__flipInX");
+          letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
+        }, interval * index);
+      });
 
-          guessedWordCount += 1;
+      guessedWordCount += 1;
 
-          if (currentWord === newWord) {
-            fetch(`http://${window.location.hostname}:8080/spoil`,{
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({numberlist})
-            })
-            setTimeout(function(){window.alert("Congrats! You found the word. It's being spoiled for the numbers listed now.")}, 3000)
+      if (currentWord === newWord) {
+        fetch(`http://${window.location.hostname}:8080/spoil`,{
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({numberlist})
+        })
+        setTimeout(function(){window.alert("Congrats! You found the word. It's being spoiled for the numbers listed now.")}, 3000)
 
-            for (let i = 0; i < keys.length; i++) {
-              keys[i].onclick = null
-            }
-          }
-          if (guessedWords.length === 6) {
-            window.alert(`Sorry, you have no more guesses! The newWord is ${newWord}.`);
-          }
-
-          guessedWords.push([]);
+        for (let i = 0; i < keys.length; i++) {
+          keys[i].onclick = null
         }
-      })
-      //.catch(() => {
-        //window.alert("Word is not recognised!");
-      //});
+      }
+      if (guessedWords.length === 6) {
+        setTimeout(function(){window.alert(`Sorry, you have no more guesses! The word is ${newWord}.`)}, 2750);
+        for (let i = 0; i < keys.length; i++) {
+          keys[i].onclick = null
+        }
+      }
+
+      guessedWords.push([]);
+    }
   }
 
   function createSquares() {
@@ -149,6 +149,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleDeleteLetter() {
     const currentWordArr = getCurrentWordArr();
+    if (currentWordArr.length == 0) {
+      return
+    }
     const removedLetter = currentWordArr.pop();
 
     guessedWords[guessedWords.length - 1] = currentWordArr;
