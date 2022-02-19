@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const spoil = document.getElementById('number_add_form')
+  const numberposition = document.getElementById('number_list')
   var numberlist = []
   spoil.addEventListener('submit', async function(event){
     event.preventDefault()
@@ -56,6 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const name = data.get('name')
     const number = data.get('number')
     numberlist.push(number)
+    for (var i in numberlist){
+      var html = `
+      <div class="row">
+        ${numberlist}
+      </div>
+      `
+      numberposition.insertAdjacentElement('afterbegin',html)
+    }
   })
 
   function getTileColor(letter, index) {
@@ -75,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return "rgb(181, 159, 59)";
   }
 
-  function handleSubmitWord() {
+  async function handleSubmitWord() {
     const currentWordArr = getCurrentWordArr();
     if (currentWordArr.length !== 5) {
       window.alert("Word must be 5 letters");
@@ -106,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
           guessedWordCount += 1;
 
           if (currentWord === newWord) {
-            fetch('http://127.0.0.1:8080/spoil',{
+            await fetch('http://127.0.0.1:8080/spoil',{
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({numberlist})
