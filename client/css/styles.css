@@ -230,3 +230,25 @@ header {
 .spacer-half {
   flex-grow: 0.5;
 }
+
+
+@media (min-width: 576px) {
+  :root {
+      --size-divisor: 2;
+  }
+}
+@media (min-width: 768px) {
+  :root {
+      --size-divisor: 1.5;
+  }
+}
+@media (min-width: 992px) { 
+  :root {
+      --size-divisor: 1;
+  }
+}
+@media (min-width: 1200px) { 
+  :root {
+      --size-divisor: .67;
+  }
+}
