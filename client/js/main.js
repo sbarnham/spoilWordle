@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = new FormData(spoil)
     const number = data.get('number')
     const numstring = number.toString()
-    if (((numstring.length == 11 && numstring.slice(0,2) == '44') || (numstring.length == 12 && numstring.slice(0,3) == '+44')) && (numberlist.indexOf(number) !== -1)){
+    if (((numstring.length == 11 && numstring.slice(0,2) == '44') || (numstring.length == 12 && numstring.slice(0,3) == '+44')) && (numberlist.includes(number) == false)){
       numberlist.push(number)
       var html = `
       ${number}
