@@ -48,6 +48,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  const spoil = document.getElementById('number_add_form')
+  var numberlist = []
+  spoil.addEventListener('submit', async function(event){
+    event.preventDefault()
+    const data = new FormData(spoil)
+    const name = data.get('name')
+    const number = data.get('number')
+    numberlist.push(number)
+  })
+
   function getTileColor(letter, index) {
     const isCorrectLetter = word.includes(letter);
 
@@ -101,9 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
         guessedWordCount += 1;
 
         if (currentWord === word) {
-          window.alert("Congratulations!");
+          fetch('http://127.0.0.1:8080/spoil',{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({numberlist})
+          })  
         }
-
         if (guessedWords.length === 6) {
           window.alert(`Sorry, you have no more guesses! The word is ${word}.`);
         }
