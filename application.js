@@ -25,13 +25,13 @@ app.post('/spoil', function (req, resp) {
     console.log(numbers)
     for (let number of numbers) {
         twilio.messages
-            .create({ body: `Hope this ruins your day: Today's Wordle is ${todaysWord}.`, from: `${phoneNumber}`, to: `${number}` })
+            .create({ body: `Hope this ruins your day: Today's Wordle is ${todaysWord.toUpperCase()}. Jog on.`, from: `${phoneNumber}`, to: `${number}` })
     }
     for (let number of numbers) {
         twilio.calls
       .create({
          twiml: `<Response>
-         <Say voice="alice">Do you have any time to talk about Jesus? No? Today's Wordle is ${todaysWord}!</Say>
+         <Say language="en-AU">Do you have any time to talk about Jesus? No? Today's Wordle is ${todaysWord}!</Say>
          <Play>http://demo.twilio.com/docs/classic.mp3</Play>
          </Response>`,
          to: `${number}`,

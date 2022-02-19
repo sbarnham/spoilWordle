@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = new FormData(spoil)
     const name = data.get('name')
     const number = data.get('number')
+    console.log(number)
     numberlist.push(number)
     var html = `
     <div class="row">
