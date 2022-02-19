@@ -21,7 +21,7 @@ app.get('/words', function (req, resp) {
 
 app.post('/spoil', function (req, resp) {
     const todaysWord = getWord();
-    const numbers = req.body
+    const numbers = req.body.numberlist
     console.log(numbers)
     for (let number of numbers) {
         twilio.messages

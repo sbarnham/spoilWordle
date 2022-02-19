@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const spoil = document.getElementById('number_add_form')
   const numberposition = document.getElementById('number_list')
-  var numberlist = []
+  var numberlist = [""]
   spoil.addEventListener('submit', async function(event){
     event.preventDefault()
     const data = new FormData(spoil)
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return "rgb(181, 159, 59)";
   }
 
-  async function handleSubmitWord() {
+  function handleSubmitWord() {
     const currentWordArr = getCurrentWordArr();
     if (currentWordArr.length !== 5) {
       window.alert("Word must be 5 letters");
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
       .then((res) => {
         if (JSON.stringify(res) == "No") {
-          window.alert("Word not in newWord list")
+          window.alert("Word not in word list")
         } else {
           const firstLetterId = guessedWordCount * 5 + 1;
           const interval = 200;
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
           guessedWordCount += 1;
 
           if (currentWord === newWord) {
-            await fetch('http://127.0.0.1:8080/spoil',{
+            fetch('http://127.0.0.1:8080/spoil',{
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({numberlist})
