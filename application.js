@@ -13,28 +13,16 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const phoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
-
-
 app.get('/words', function (req, resp) {
     resp.json(words)
 })
 
-<<<<<<< HEAD
-app.post('/spoil', function (req, resp) {
-    const todaysWord = getWord(); 
-
-    const numbers = req.body
-    for (let number of numbers) {
-        twilio.messages
-            .create({ body: `${todaysWord}`, from: '+447488884357', to: `${number}` })
-=======
 app.post('/spoil', function(req, resp) {
     console.log(numbers)
     const numbers = req.body
     for (let number of numbers) {
         twilio.messages
             .create({body: `Just to ruin your day, the Wordle of the Day is: ${todaysWord}`, from: `+${phoneNumber}`, to: `${number}`})
->>>>>>> e9bfea6e839a1523da368dd0026f5532ae88dd90
     }
 })
 
