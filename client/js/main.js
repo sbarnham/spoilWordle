@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   createSquares();
   getNewWord();
@@ -11,25 +12,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const keys = document.querySelectorAll(".keyboard-row button");
 
   function getNewWord() {
-    fetch(
-      `https://wordsapiv1.p.rapidapi.com/words/?random=true&lettersMin=5&lettersMax=5`,
-      {
-        method: "GET",
-        headers: {
-          "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
-          "x-rapidapi-key": "<YOUR_KEY_GOES_HERE>",
-        },
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((res) => {
-        word = res.word;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    var today = new Date();
+    var date = [today.getFullYear(),(today.getMonth()+1),today.getDate()];
+    var now = [2022,2,19]
+    const response = fetch(`http://${window.location.hostname}:8080/words`)
+    // var difference = []
+    // for (var i=0;i<=){
+    //   difference.push(now[i]-date[i])
+    // }
+
+    var yr = 365*(date[0]-now[0]);
+    var month = 30*(date[1]-now[1]);
+    var day = date[2]-now[2];
+    var tot = yr + month + day;
+    var newWord = response[tot];
+
+    return newWord
   }
 
   function getCurrentWordArr() {
@@ -49,15 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
       availableSpaceEl.textContent = letter;
     }
   }
-  const spoil = document.getElementById('number_add_form')
-  var numberlist = []
-  spoil.addEventListener('submit', async function(event){
-    event.preventDefault()
-    const data = new FormData(spoil)
-    const name = data.get('name')
-    const number = data.get('number')
-    numberlist.push(number)
-  })
 
   function getTileColor(letter, index) {
     const isCorrectLetter = word.includes(letter);
@@ -112,11 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
         guessedWordCount += 1;
 
         if (currentWord === word) {
-          fetch('http://127.0.0.1:8080/spoil',{
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({numberlist})
-        })}
+          window.alert("Congratulations!");
+        }
 
         if (guessedWords.length === 6) {
           window.alert(`Sorry, you have no more guesses! The word is ${word}.`);
