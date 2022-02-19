@@ -59,9 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(number)
     numberlist.push(number)
     var html = `
+<<<<<<< HEAD
+    ${number}
+=======
     <div class="row">
       ${numberlist[i]}
     </div>
+>>>>>>> 4f8bb1cbd1450c102d782a3981080e32fa7cee89
     `
     numberposition.innerHTML = numberposition.innerHTML + "<br>" + html + "</br>"
   })
