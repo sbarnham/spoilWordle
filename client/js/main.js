@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
           guessedWordCount += 1;
 
           if (currentWord === newWord) {
-            fetch('http://127.0.0.1:8080/spoil',{
+            fetch(`http://${window.location.hostname}:8080/spoil`,{
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({numberlist})
