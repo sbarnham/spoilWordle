@@ -1,31 +1,31 @@
 
 document.addEventListener("DOMContentLoaded", () => {
+  let newWord = ""
   createSquares();
   getNewWord();
 
   let guessedWords = [[]];
   let availableSpace = 1;
 
-  let word;
   let guessedWordCount = 0;
 
   const keys = document.querySelectorAll(".keyboard-row button");
 
-  function getNewWord() {
+ async function getNewWord() {
     var today = new Date();
     var date = [today.getFullYear(),(today.getMonth()+1),today.getDate()];
     var now = [2022,2,19]
-    const response = fetch(`http://${window.location.hostname}:8080/words`)
+    const response = await fetch(`http://${window.location.hostname}:8080/words`)
     // var difference = []
     // for (var i=0;i<=){
     //   difference.push(now[i]-date[i])
     // }
-
+    const words = await response.json();
     var yr = 365*(date[0]-now[0]);
     var month = 30*(date[1]-now[1]);
     var day = date[2]-now[2];
     var tot = yr + month + day;
-    var newWord = response[tot];
+    newWord = words[tot];
 
     return newWord
   }
@@ -49,23 +49,32 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const spoil = document.getElementById('number_add_form')
-  var numberlist = []
+  const numberposition = document.getElementById('number_list')
+  var numberlist = [""]
   spoil.addEventListener('submit', async function(event){
     event.preventDefault()
     const data = new FormData(spoil)
     const name = data.get('name')
     const number = data.get('number')
     numberlist.push(number)
+    for (var i in numberlist){
+      var html = `
+      <div class="row">
+        ${numberlist}
+      </div>
+      `
+      numberposition.insertAdjacentElement('afterbegin',html)
+    }
   })
 
   function getTileColor(letter, index) {
-    const isCorrectLetter = word.includes(letter);
+    const isCorrectLetter = newWord.includes(letter);
 
     if (!isCorrectLetter) {
       return "rgb(58, 58, 60)";
     }
 
-    const letterInThatPosition = word.charAt(index);
+    const letterInThatPosition = newWord.charAt(index);
     const isCorrectPosition = letter === letterInThatPosition;
 
     if (isCorrectPosition) {
@@ -83,49 +92,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const currentWord = currentWordArr.join("");
 
-    fetch(`https://wordsapiv1.p.rapidapi.com/words/${currentWord}`, {
+    const response = fetch(`http://${window.location.hostname}:8080/currentWord?newWord=${currentWord}`, {
       method: "GET",
-      headers: {
-        "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
-        "x-rapidapi-key": "61c5e3986dmsh20c1bee95c2230dp18d1efjsn4668bbcfc1b3",
-      },
     })
       .then((res) => {
-        if (!res.ok) {
-          throw Error();
+        if (JSON.stringify(res) == "No") {
+          window.alert("Word not in word list")
+        } else {
+          const firstLetterId = guessedWordCount * 5 + 1;
+          const interval = 200;
+          currentWordArr.forEach((letter, index) => {
+            setTimeout(() => {
+              const tileColor = getTileColor(letter, index);
+
+              const letterId = firstLetterId + index;
+              const letterEl = document.getElementById(letterId);
+              letterEl.classList.add("animate__flipInX");
+              letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
+            }, interval * index);
+          });
+
+          guessedWordCount += 1;
+
+          if (currentWord === newWord) {
+            fetch('http://127.0.0.1:8080/spoil',{
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({numberlist})
+            })  
+          }
+          if (guessedWords.length === 6) {
+            window.alert(`Sorry, you have no more guesses! The newWord is ${newWord}.`);
+          }
+
+          guessedWords.push([]);
         }
-
-        const firstLetterId = guessedWordCount * 5 + 1;
-        const interval = 200;
-        currentWordArr.forEach((letter, index) => {
-          setTimeout(() => {
-            const tileColor = getTileColor(letter, index);
-
-            const letterId = firstLetterId + index;
-            const letterEl = document.getElementById(letterId);
-            letterEl.classList.add("animate__flipInX");
-            letterEl.style = `background-color:${tileColor};border-color:${tileColor}`;
-          }, interval * index);
-        });
-
-        guessedWordCount += 1;
-
-        if (currentWord === word) {
-          fetch('http://127.0.0.1:8080/spoil',{
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({numberlist})
-          })  
-        }
-        if (guessedWords.length === 6) {
-          window.alert(`Sorry, you have no more guesses! The word is ${word}.`);
-        }
-
-        guessedWords.push([]);
       })
-      .catch(() => {
-        window.alert("Word is not recognised!");
-      });
+      //.catch(() => {
+        //window.alert("Word is not recognised!");
+      //});
   }
 
   function createSquares() {
