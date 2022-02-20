@@ -104,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
       method: "GET",
     })
     var decision = await response.json()
-    console.log(decision)
     if (decision == 'No') {
       window.alert("Entered word not in word list")
     } else {

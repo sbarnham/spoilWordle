@@ -23,7 +23,6 @@ app.post('/spoil', function (req, resp) {
     const todaysWord = getWord();
     const numbers = req.body.numberlist;
     let preCallMessage = Math.floor(Math.random() * 4 + 1);
-    console.log(preCallMessage);
     for (let number of numbers) {
         twilio.messages
             .create({ body: `Hope this ruins your day: Today's Wordle is ${todaysWord.toUpperCase()}. Jog on.`, from: `${phoneNumber}`, to: `${number}` })
@@ -54,14 +53,18 @@ app.get('/currentWord', function(req, resp) {
 
 app.post('/hint', function(req, resp) {
     const letterList = req.body.letterlist
-    const word = getWord()
-    console.log(letterList)
+    let word = getWord()
     allFiveLetterWordsCopy = JSON.parse(JSON.stringify(allFiveLetterWords))
     for (let letter of letterList) {
         allFiveLetterWordsCopy = allFiveLetterWordsCopy.filter(word => !(word.includes(letter)))
-        word.replace(letter, '')
+        word = word.replace(letter, '')
     }
-    resp.json(allFiveLetterWordsCopy[allFiveLetterWordsCopy.findIndex(word => word.includes(word[0]))])
+    let hintWord = allFiveLetterWordsCopy[allFiveLetterWordsCopy.findIndex(hintWord => hintWord.includes(word[0]))]
+    if (hintWord == null) {
+        resp.json("No hint found!")
+    } else {
+        resp.json(allFiveLetterWordsCopy[allFiveLetterWordsCopy.findIndex(hintWord => hintWord.includes(word[0]))])
+    }
 })
 
 function getWord() {
