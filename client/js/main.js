@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   const buttonpressed = document.getElementById('hint')
   buttonpressed.addEventListener('click', async function(){
-    if (guessedWords.length === 0){
+    if (guessedWords.length === 1){
       alert("Please enter a word for a hint")
     }
     else{
