@@ -19,7 +19,7 @@ _TWILIO_PHONE_NUMBER="Your Twilio number"_
 
 After you create a Twilio account on the main page by scrolling down you will find your AUTH_TOKEN.
 
-you can buy a phone number to use by clicking the drop down "Phone Numbers" then "Manage" then "Buy a number". The number will need to be a +44 cellphone number with call and SMS capabilities. (Icons are displayed to the right of the number to dipict the actions the number is capable of)
+You can buy a phone number to use by clicking the drop down "Phone Numbers" then "Manage" then "Buy a number". The number will need to be a +44 cellphone number with call and SMS capabilities. (Icons are displayed to the right of the number to dipict the actions the number is capable of)
 
 To find your ACCOUNT_SID click on the Twilio logo icon in the top left corner. It will take to to a page containing you ACCOUNT_SID.
 
