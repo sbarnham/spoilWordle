@@ -21,7 +21,9 @@ app.get('/words', function (req, resp) {
 
 app.post('/spoil', function (req, resp) {
     const todaysWord = getWord();
-    const numbers = req.body.numberlist
+    const numbers = req.body.numberlist;
+    let preCallMessage = Math.floor(Math.random() * 4 + 1);
+    console.log(preCallMessage);
     for (let number of numbers) {
         twilio.messages
             .create({ body: `Hope this ruins your day: Today's Wordle is ${todaysWord.toUpperCase()}. Jog on.`, from: `${phoneNumber}`, to: `${number}` })
@@ -30,7 +32,7 @@ app.post('/spoil', function (req, resp) {
         twilio.calls
       .create({
          twiml: `<Response>
-         <Play>https://altaudio-9871.twil.io/1.mp3</Play>
+         <Play>https://altaudio-9871.twil.io/${preCallMessage}.mp3</Play>
          <Say language="en-AU">${todaysWord}!</Say>
          <Play>http://demo.twilio.com/docs/classic.mp3</Play>
          </Response>`,
