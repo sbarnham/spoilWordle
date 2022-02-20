@@ -1,4 +1,4 @@
-
+// Base wordle game used: https://www.youtube.com/watch?v=j7OhcuZQ-q8
 document.addEventListener("DOMContentLoaded", () => {
   let newWord = ""
   createSquares();
