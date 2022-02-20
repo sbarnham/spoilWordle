@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const letterlist = []
   function getTileColor(letter, index) {
     const isCorrectLetter = newWord.includes(letter);
-
+    
     if (!isCorrectLetter) {
       return "rgb(58, 58, 60)";
     }
@@ -83,13 +83,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   const buttonpressed = document.getElementById('hint')
   buttonpressed.addEventListener('click', async function(){
-    const response = await fetch(`http://${window.location.hostname}:8080/hint`,{
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({letterlist})
-        })
-    const hintword = await response.json()
-    alert(hintword)
+    if (guessedWords.length === 0){
+      alert("Please enter a word for a hint")
+    }
+    else{
+      const response = await fetch(`http://${window.location.hostname}:8080/hint`,{
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({letterlist})
+          })
+      const hintword = await response.json()
+      alert(hintword)
+        }
   })
 
   async function handleSubmitWord() {
