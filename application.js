@@ -49,8 +49,16 @@ app.get('/currentWord', function(req, resp) {
     }
 })
 
-app.get('/hint', function(req, resp) {
-
+app.post('/hint', function(req, resp) {
+    const letterList = req.body.letterlist
+    const word = getWord()
+    console.log(letterList)
+    allFiveLetterWordsCopy = JSON.parse(JSON.stringify(allFiveLetterWords))
+    for (let letter of letterList) {
+        allFiveLetterWordsCopy = allFiveLetterWordsCopy.filter(word => !(word.includes(letter)))
+        word.replace(letter, '')
+    }
+    resp.json(allFiveLetterWordsCopy[allFiveLetterWordsCopy.findIndex(word => word.includes(word[0]))])
 })
 
 function getWord() {

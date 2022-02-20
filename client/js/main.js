@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return guessedWords[numberOfGuessedWords - 1];
   }
 
-  function updateGuessedWords(letter) {
+  async function updateGuessedWords(letter) {
     const currentWordArr = getCurrentWordArr();
 
     if (currentWordArr && currentWordArr.length < 5) {
@@ -83,12 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   const buttonpressed = document.getElementById('hint')
   buttonpressed.addEventListener('click', async function(){
-    const response = fetch(`http://${window.location.hostname}:8080/hint`,{
+    const response = await fetch(`http://${window.location.hostname}:8080/hint`,{
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({letterlist})
         })
-    const hintword = response.json()
+    const hintword = await response.json()
     alert(hintword)
   })
 
