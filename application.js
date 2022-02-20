@@ -21,7 +21,9 @@ app.get('/words', function (req, resp) {
 
 app.post('/spoil', function (req, resp) {
     const todaysWord = getWord();
-    const numbers = req.body.numberlist
+    const numbers = req.body.numberlist;
+    let preCallMessage = Math.floor(Math.random() * 4 + 1);
+    console.log(preCallMessage);
     for (let number of numbers) {
         twilio.messages
             .create({ body: `Hope this ruins your day: Today's Wordle is ${todaysWord.toUpperCase()}. Jog on.`, from: `${phoneNumber}`, to: `${number}` })
@@ -30,7 +32,8 @@ app.post('/spoil', function (req, resp) {
         twilio.calls
       .create({
          twiml: `<Response>
-         <Say language="en-AU">Do you have any time to talk about Jesus? No? Today's Wordle is ${todaysWord}!</Say>
+         <Play>https://altaudio-9871.twil.io/${preCallMessage}.mp3</Play>
+         <Say language="en-AU">${todaysWord}!</Say>
          <Play>http://demo.twilio.com/docs/classic.mp3</Play>
          </Response>`,
          to: `${number}`,
@@ -49,8 +52,16 @@ app.get('/currentWord', function(req, resp) {
     }
 })
 
-app.get('/hint', function(req, resp) {
-
+app.post('/hint', function(req, resp) {
+    const letterList = req.body.letterlist
+    const word = getWord()
+    console.log(letterList)
+    allFiveLetterWordsCopy = JSON.parse(JSON.stringify(allFiveLetterWords))
+    for (let letter of letterList) {
+        allFiveLetterWordsCopy = allFiveLetterWordsCopy.filter(word => !(word.includes(letter)))
+        word.replace(letter, '')
+    }
+    resp.json(allFiveLetterWordsCopy[allFiveLetterWordsCopy.findIndex(word => word.includes(word[0]))])
 })
 
 function getWord() {
